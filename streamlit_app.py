@@ -15,7 +15,7 @@ client = None
 
 # Sidebar Header
 with st.sidebar:
-    st.header("Israeli Internet Archive")
+    st.header("Israeli Internet Archive - Arabic")
 
 # Handle credentials upload
 if not authenticated:
@@ -60,7 +60,7 @@ if authenticated:
     # Sidebar menu
     with st.sidebar:
         selected_app_name = option_menu(
-            "Tools Menu",
+            "Arabic Tools Menu",
             options=list(apps.keys()),
             icons=["search", "filter", "link", "database"],  # Customize icons
             menu_icon="tools",
