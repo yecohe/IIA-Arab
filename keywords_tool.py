@@ -8,22 +8,9 @@ def run(client):
 
     # Language options and descriptions
     language_options = {
-        "English (en)": "en",
-        "Hebrew (he)": "he",
         "Arabic (ar)": "ar",
-        "French (fr)": "fr",
-        "German (de)": "de",
-        "Italian (it)": "it",
-        "Russian (ru)": "ru",
-        "Yiddish (yi)": "yi",
-        "Dutch (nl)": "nl",
-        "Romanian (ro)": "ro",
-        "Hungarian (hu)": "hu",
-        "Spanish - Latin America (es-419)": "es-419",
-        "Spanish - Spain (es-ES)": "es-ES",
-        "Portuguese - Brazil (pt-BR)": "pt-BR",
-        "Portuguese - Portugal (pt-PT)": "pt-PT",
-        "Polish (pl)": "pl"
+        "English (en)": "en",
+        "Hebrew (he)": "he"
     }
 
     engine_options = {
