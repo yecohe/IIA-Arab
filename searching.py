@@ -123,12 +123,12 @@ def count_j_in_domain(url):
     domain = extract_domain_from_url(url)
     return domain.count('j')
 
-def google_search_homemade(query, num_results=100, language="en"):
+def google_search_homemade(query, num_results=100, language="en", region=""):
     results = []
     start = 0  # Google uses `start` parameter for pagination
 
     while len(results) < num_results:
-        search_url = f"https://www.google.com/search?q={query}&hl={language}&lr=lang_{language}&num=10&start={start}"
+        search_url = f"https://www.google.com/search?q={query}&hl={language}&lr=lang_{language}&cr={region}&num=10&start={start}"
         try:
             # Make the HTTP request
             response = requests.get(search_url, headers=headers)
@@ -211,10 +211,15 @@ def google_search_selenium(query, num_results=10, language="en"):
         error_handler("google search", query, e)
 
 
-
-def google_search(query, num_results=100, language="en"):
+def google_search(query, num_results=100, language="en", country="il"):
     api_key = st.secrets["cse_key"]
     cse_id = st.secrets["cse_id"]
+    if country=="il":
+        cr_code="countryIL"
+        gl_code="il"
+    if country=="ps":
+        cr_code="countryPS"
+        gl_code="ps"
     try:
         # Build the service
         service = build("customsearch", "v1", developerKey=api_key)
@@ -230,7 +235,9 @@ def google_search(query, num_results=100, language="en"):
                 num=10,
                 start=start_index,
                 hl=language,
-                lr=f"lang_{language}"
+                lr=f"lang_{language}",
+                cr=cr_code,
+                gl=gl_code
             ).execute()
 
             # Extract URLs from results
@@ -248,9 +255,12 @@ def google_search(query, num_results=100, language="en"):
         st.error(f"An error occurred during the search: {e}")
         return []
 
-def google_search_library(query, num_results=100, language="en"):
+def google_search_library(query, num_results=100, language="en", country="il"):
     try:
-        results = search(query, num_results=num_results, lang=language)
+        if country=="il":
+            results = search(query, num_results=num_results, lang=language, region="il")
+        if country=="ps":
+            results = search(query, num_results=num_results, lang=language, region="ps")
         return results
     except Exception as e:
         print(f"An error occurred during the search: {e}")
@@ -395,15 +405,12 @@ def filter_ignored_urls(block_list, classified_urls):
     
 
 # Function to search and filter URLs based on query
-def search_and_filter_urls(query, block_list, num_results=100, language="en", homepage_only=False, engine="API"):
+def search_and_filter_urls(query, block_list, num_results=100, language="en", homepage_only=False, engine="API", country="il"):
     if engine == "API":
-        search_results = google_search(query, num_results, language)
-    elif engine == "homemade":
-        search_results = google_search_homemade(query, num_results, language)
+        search_results = google_search(query, num_results, language, country)
     elif engine == "library":
-        search_results = google_search_library(query, num_results, language)
-    elif engine == "selenium":
-        search_results = google_search_selenium(query, num_results, language)    
+        search_results = google_search_library(query, num_results, language, country)
+
         
     classified_urls = []
     
