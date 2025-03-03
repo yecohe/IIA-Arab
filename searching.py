@@ -399,7 +399,6 @@ def search_and_filter_urls(query, block_list, num_results=100, language="en", ho
     if engine == "API":
         search_results = google_search(query, num_results, language)
     elif engine == "homemade":
-        st.info("homemade")
         search_results = google_search_homemade(query, num_results, language)
     elif engine == "library":
         search_results = google_search_library(query, num_results, language)
@@ -475,7 +474,7 @@ def fetch_and_get_keywords(client, sheet_id):
         not_sure_sheet = client.open_by_key(sheet_id).worksheet("Not Sure")        
         good_keywords = [kw.lower() for kw in keywords_sheet.col_values(1)[1:]]  # Lowercase good keywords
         bad_keywords = [kw.lower() for kw in keywords_sheet.col_values(3)[1:]]  # Lowercase bad keywords
-        block_list = keywords_sheet.col_values(1)[1:]
+        block_list = block_sheet.col_values(1)[1:]
         return keywords_sheet, sure_sheet, not_sure_sheet, good_keywords, bad_keywords, block_list
     except Exception as e:
         error_handler("fetch and get keywords", sheet_id, e)
