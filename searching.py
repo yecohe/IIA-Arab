@@ -289,7 +289,7 @@ def get_title(url):
 
 # Function to fetch description from a URL
 def get_description(url):
-    description = ""
+    description = "-"
     try:
         # Add scheme if missing
         if not re.match(r'^https?://', url):
@@ -299,8 +299,8 @@ def get_description(url):
         soup = BeautifulSoup(response.text, 'html.parser')
         # Try to get the description
         description_tag = soup.find('meta', attrs={'name': 'description'}) or soup.find('meta', attrs={'property': 'og:description'})
-        description = description_tag['content'] if description_tag else ""
-        description = re.sub(r'[\r\n]+', ' ', description.strip()) if description else ""
+        description = description_tag['content'] if description_tag else "-"
+        description = re.sub(r'[\r\n]+', ' ', description.strip()) if description else "-"
         if description is not str:
             description = str(description)
         return description
