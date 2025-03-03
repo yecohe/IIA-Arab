@@ -422,7 +422,7 @@ def search_and_filter_urls(query, block_list, num_results=100, language="en", ho
             source = f"search for '{query}' (d)"
         else:
             # Check if the domain is a Google Site and preserve the full URL
-            if "googlesites.com" in parsed_url.netloc:
+            if "sites.google.com" in parsed_url.netloc:
                 result = url  # Keep the original URL
             else:
                 # Strip URL to domain or subdomain
