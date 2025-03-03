@@ -268,7 +268,7 @@ def google_search_library(query, num_results=100, language="en", country="il"):
 
 # Function to fetch title from a URL
 def get_title(url):
-    title = ""
+    title = "-"
     try:
         # Add scheme if missing
         if not re.match(r'^https?://', url):
@@ -289,7 +289,7 @@ def get_title(url):
 
 # Function to fetch description from a URL
 def get_description(url):
-    description = ""
+    description = "-"
     try:
         # Add scheme if missing
         if not re.match(r'^https?://', url):
