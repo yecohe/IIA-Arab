@@ -540,8 +540,9 @@ def process_keywords(client, sheet_id, keywords, lang="en", inurl=False, limit=1
                     rows_to_sure, rows_to_not_sure = [], []  # Clear the list after updating
 
             # Final update for any remaining rows
-            if rows_to_sure or rows_to_not_sure:
+            if len(rows_to_not_sure) > 0 or len(rows_to_sure) > 0:
                 update_google_sheets(rows_to_sure, rows_to_not_sure, sure_sheet, not_sure_sheet)
+                st.info("Updated google sheets")
             st.success(f"Finished processing '{keyword}'")
         except Exception as e:
             st.error(f"Error processing '{keyword}': {e}")
