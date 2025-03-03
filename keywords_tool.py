@@ -15,7 +15,7 @@ def run(client):
 
     region_options = {
         "Israel (il)": "il",
-        "Palestinian (ps)": "ps"
+        "Palestine (ps)": "ps"
     }
 
     engine_options = {
