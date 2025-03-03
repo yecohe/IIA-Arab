@@ -104,7 +104,7 @@ def guess_words(concatenated_sentence):
         
         # Translate each word to English and check validity
         for word in list(all_valid_words):
-            translated_word = translate_to_english(word).lower()
+            translated_word = translate_text(word, "en").lower()
             if is_valid_word(models["English"], translated_word):
                 all_valid_words.add(translated_word)
     
@@ -334,14 +334,14 @@ def detect_language(title, description):
         error_handler("detecting language", title, e)
         return ["unknown"]
 
-def translate_to_english(input):
+def translate_text(input, lang_code):
     if not input.strip():
         return ""
     if not isinstance(input, str):
         input = str(input)
     translator = Translator()
     try:
-        translation = translator.translate(input, src='auto', dest='en')
+        translation = translator.translate(input, src='auto', dest=lang_code)
         return translation.text
     except Exception as e:
         error_handler("translating", input, e)
@@ -490,10 +490,12 @@ def process_single_url(url, source, good_keywords, bad_keywords):
         languages = detect_language(title, description)
         lang_text = ", ".join(languages) if languages else "unknown"
         score, details, good_count, bad_count = calculate_score(url, title, description, languages, good_keywords, bad_keywords)
-        row_data = [url, title, description, score, details, source, lang_text, good_count, bad_count, timestamp]
+        title_en = translate_text(title, "en")
+        description_en = translate_text(description, "en")
+        row_data = [url, title, description, title_en, description_en, score, details, source, lang_text, good_count, bad_count, timestamp]
     except Exception as e:
         st.error(f"Error processing URL '{url}': {e}")
-        row_data = [url, title if title else "Error", description if description else "Error", score if score else "C", details if details else "Error", source if source else "Error", lang_text if lang_text else "Error", good_count if good_count else "Error", bad_count if bad_count else "Error", timestamp if timestamp else "Error"]
+        row_data = [url, title if title else "Error", description if description else "Error", title_en if title_en else "Error", description_en if description_en else "Error", score if score else "C", details if details else "Error", source if source else "Error", lang_text if lang_text else "Error", good_count if good_count else "Error", bad_count if bad_count else "Error", timestamp if timestamp else "Error"]
     
     return row_data, score
 
