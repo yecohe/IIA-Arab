@@ -423,12 +423,12 @@ def search_and_filter_urls(query, block_list, num_results=100, language="en", ho
         else:
             # Check if the domain is a Google Site and preserve the full URL
             if "sites.google.com" in parsed_url.netloc:
-                result = url  # Keep the original URL
+                continue
             else:
                 # Strip URL to domain or subdomain
                 stripped_url = urlunparse((parsed_url.scheme, parsed_url.netloc, "", "", "", ""))
-                source = f"search for '{query}' (d)" if parsed_url.path in ("", "/") and not parsed_url.query and not parsed_url.fragment else f"search for '{query}' (p)"
                 result = stripped_url  # Replace result with stripped URL
+            source = f"search for '{query}' (d)" if parsed_url.path in ("", "/") and not parsed_url.query and not parsed_url.fragment else f"search for '{query}' (p)"
         classified_urls.append((result, source))
 
     # Deduplicate, excluding www if root domain is present
