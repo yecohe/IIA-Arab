@@ -507,7 +507,7 @@ def process_single_url(url, source, good_keywords, bad_keywords):
 
 
 # Process keywords to fetch and evaluate URLs
-def process_keywords(client, sheet_id, keywords, lang="en", inurl=False, limit=100, homepage=False, engine="API"):
+def process_keywords(client, sheet_id, keywords, lang="en", inurl=False, limit=100, homepage=False, engine="API", country="il"):
     """Process a list of keywords to fetch and evaluate URLs."""
     keywords_sheet, sure_sheet, not_sure_sheet, good_keywords, bad_keywords, block_list = fetch_and_get_keywords(client, sheet_id)
 
@@ -520,10 +520,10 @@ def process_keywords(client, sheet_id, keywords, lang="en", inurl=False, limit=1
         time.sleep(delay)
         
         try:
-            homepage_urls = search_and_filter_urls(keyword, block_list, num_results=limit, language=lang, homepage_only=homepage, engine=engine)
+            homepage_urls = search_and_filter_urls(keyword, block_list, num_results=limit, language=lang, homepage_only=homepage, engine=engine, country=country)
             inurl_urls = []
             if inurl:
-                inurl_urls = search_and_filter_urls(f"inurl:{keyword}", block_list, num_results=limit, language=lang, homepage_only=homepage, engine=engine)
+                inurl_urls = search_and_filter_urls(f"inurl:{keyword}", block_list, num_results=limit, language=lang, homepage_only=homepage, engine=engine, country=country)
 
             all_urls = list({url: source for url, source in homepage_urls + inurl_urls}.items())
             for url, source in all_urls:
